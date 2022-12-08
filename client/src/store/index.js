@@ -78,7 +78,7 @@ function GlobalStoreContextProvider(props) {
 
     // SINCE WE'VE WRAPPED THE STORE IN THE AUTH CONTEXT WE CAN ACCESS THE USER HERE
     const { auth } = useContext(AuthContext);
-    console.log("auth: " + auth);
+    console.log("auth: ", auth);
 
     // HERE'S THE DATA STORE'S REDUCER, IT MUST
     // HANDLE EVERY TYPE OF STATE CHANGE
@@ -598,7 +598,7 @@ function GlobalStoreContextProvider(props) {
         let list = store.currentList;
         const commentData = {
             comment,
-            userId: auth.user._id,
+            userId: auth.user.id,
             authorName: auth.user.firstName+auth.user.lastName,    
         };
         console.log('commentData', commentData, index, comment)
@@ -745,21 +745,21 @@ function GlobalStoreContextProvider(props) {
     }
     store.postLike = function(currentList) {
         
-        const like = currentList.likes.find(lk => lk.userId === auth.user._id)
+        const like = currentList.likes.find(lk => lk.userId === auth.user.id)
         if(like){
             return;
         }
-        const disLike = currentList.dislikes.find(lk => lk.userId === auth.user._id)
+        const disLike = currentList.dislikes.find(lk => lk.userId === auth.user.id)
         let filtered = currentList.dislikes;
         if(disLike){
-            filtered = currentList.dislikes.filter(lk => lk.userId !== auth.user._id);
+            filtered = currentList.dislikes.filter(lk => lk.userId !== auth.user.id);
         }
 
          
         const updated = {
             ...currentList,
             dislikes: filtered,
-            likes: [...currentList.likes, {userId: auth.user._id}]
+            likes: [...currentList.likes, {userId: auth.user.id}]
         }
         console.log('&&&&&&&', updated)
         async function asyncUpdateCurrentList(updated) {
@@ -780,21 +780,21 @@ function GlobalStoreContextProvider(props) {
         asyncUpdateCurrentList(updated);
     }
     store.postDisLike = function(currentList) {
-        const disLike = currentList.dislikes.find(lk => lk.userId === auth.user._id)
+        const disLike = currentList.dislikes.find(lk => lk.userId === auth.user.id)
         if(disLike){
             return;
         }
       
-        const like = currentList.likes.find(lk => lk.userId === auth.user._id)
+        const like = currentList.likes.find(lk => lk.userId === auth.user.id)
         let filtered = currentList.likes;
         if(like){
-            filtered = currentList.likes.filter(lk => lk.userId !== auth.user._id);
+            filtered = currentList.likes.filter(lk => lk.userId !== auth.user.id);
         }
         
         const updated = {
             ...currentList,
             likes: filtered,
-            dislikes: [...currentList.dislikes, {userId: auth.user._id}]
+            dislikes: [...currentList.dislikes, {userId: auth.user.id}]
         }
 
         async function asyncUpdateCurrentList(updated) {

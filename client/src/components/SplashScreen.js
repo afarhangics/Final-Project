@@ -14,7 +14,7 @@ export default function SplashScreen() {
                 Welcome to Playlister
             </Typography>
             <Typography variant='h6' id='splash-screen-welcome'>
-                Playlister, an application for creating and playing playlists of YouTube music videos. You can create, edit and play plylists as well as share playlists with others.
+                Playlister, an application for creating and playing playlists of YouTube music videos. You can create, edit, and play playlists as well as share playlists with others.
             </Typography>
 
             <Stack direction="row" justifyContent="center">
