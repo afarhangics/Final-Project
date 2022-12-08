@@ -12,5 +12,6 @@ const UserSchema = new Schema(
     },
     { timestamps: true },
 )
-
+UserSchema.index({name: 'text', 'firstName': 'text'});
+UserSchema.index({name: 'text', 'lastName': 'text'});
 module.exports = mongoose.model('User', UserSchema)

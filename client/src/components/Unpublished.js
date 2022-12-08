@@ -19,8 +19,8 @@ function Unpublished(props) {
     store.history = useHistory();
 
     const keydownHandler = (e) => {
-        if(e.key==='y' && e.ctrlKey && store.canRedo()) handleRedo();
-        if(e.key==='z' && e.ctrlKey && store.canUndo()) handleUndo();
+        if(e.key==='y' && e.ctrlKey && store.canRedo()) handleRedo(e);
+        if(e.key==='z' && e.ctrlKey && store.canUndo()) handleUndo(e);
     };
 
     // USE THIS USE EFFECT BOTH AS COMPONENTDIDMOUNT AND COMPONENTWILLUNMOUNT

@@ -130,18 +130,18 @@ const HomeScreen = () => {
                                     </IconButton>
                             : ''}
                                 {page === 'all-list' ? 
-                                    <span 
+                                    <IconButton  
                                         style={{background:'transparent', color:'black'}}
                                     >
                                           <b> {searchTerm === '' ? 'Other Users\' ' : searchTerm} Playlists</b>                                   
-                                    </span>
+                                    </IconButton >
                             : ''}
                                 {page === 'users' ?
-                                <span 
+                                <IconButton  
                                     style={{background:'transparent', color:'black'}}
                                 >
                                     <b sx={{fontWeight:'bold'}}>{searchTerm === '' ? 'Search Lists' : searchTerm + ' ' + 'Lists'} </b>                                   
-                                </span>
+                                </IconButton >
                             
                             : ''}
                                 

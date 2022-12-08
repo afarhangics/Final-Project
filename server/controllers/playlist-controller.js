@@ -182,22 +182,7 @@ searchPlaylistsByUsers = async (req, res) => {
         })
     }
 
-    const users = await User.find({
-        "$or": [
-                {
-                    "firstName": {
-                    "$regex": searchTerm,
-                    "$options": "i"
-                    },                  
-                },
-                {
-                    "lastName": {
-                    "$regex": searchTerm,
-                    "$options": "i"
-                    }
-                }
-        ]
-      });
+    const users = await User.find({$text: {$search: searchTerm}});
     console.log(users);
     const emails = users.map(u=>u.email);
     if(emails.length > 0)
@@ -211,7 +196,16 @@ searchPlaylistsByUsers = async (req, res) => {
                     .status(404)
                     .json({ success: false, error: `Playlists not found` })
             }
-            return res.status(200).json({ success: true, playlists })
+            const userTree = {}
+            users.forEach(u => userTree[u.email] = u)
+            const emailUserKeys = playlists.map(p => {
+                const newPlaylist = {
+                    ...p._doc,
+                    user: userTree[p.ownerEmail]
+                }
+                return newPlaylist;
+            })
+            return res.status(200).json({ success: true, playlists: emailUserKeys })
         }).catch(err => console.log(err));
     } else{
         return res
@@ -230,6 +224,10 @@ searchPlaylists = async (req, res) => {
             error: 'You must provide a searchTerm',
         })
     }
+    const users = await User.find({});
+    const userTree = {}
+    users.forEach(u => userTree[u.email] = u)
+            
    await Playlist.find( { $text: {$search: searchTerm}, published: true }, (err, playlists) => {
             if (err) {
                 return res.status(400).json({ success: false, error: err });
@@ -239,7 +237,14 @@ searchPlaylists = async (req, res) => {
                     .status(404)
                     .json({ success: false, error: `Playlists not found` })
             }
-            return res.status(200).json({ success: true, playlists })
+            const emailUserKeys = playlists.map(p => {
+                const newPlaylist = {
+                    ...p._doc,
+                    user: userTree[p.ownerEmail]
+                }
+                return newPlaylist;
+           })
+            return res.status(200).json({ success: true, playlists: emailUserKeys })
         }).catch(err => console.log(err));    
 }
 
