@@ -4,7 +4,8 @@ import { GlobalStoreContext } from '../store'
 function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [ draggedTo, setDraggedTo ] = useState(0);
-    const { song, index } = props;
+    const { song, index, setCurrentSong,
+        setShouldLoadNewSong,currentSong } = props;
 
     function handleDragStart(event) {
         event.dataTransfer.setData("song", index);
@@ -40,9 +41,14 @@ function SongCard(props) {
     function handleClick(event) {
         event.stopPropagation();
         // DOUBLE CLICK IS FOR SONG EDITING
+        if (event.detail === 1) {
+            setCurrentSong(index);
+            setShouldLoadNewSong(true);
+        }
         if (event.detail === 2) {
             store.showEditSongModal(index, song);
         }
+       
     }
 
     let cardClass = "list-card unselected-list-card";
@@ -57,6 +63,7 @@ function SongCard(props) {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             draggable="true"
+            style={{background: `${currentSong === index ? '#d4af37' : '#2c2f70'}`}}
             onClick={handleClick}
         >
             {index + 1}.

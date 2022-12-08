@@ -15,6 +15,8 @@ import YouTubePlayer from './YouTubePlayer';
 import Comments from './Comments';
 import { IconButton } from '@mui/material';
 import AuthContext from '../auth';
+import MUIEditSongModal from './MUIEditSongModal'
+import MUIRemoveSongModal from './MUIRemoveSongModal'
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -69,6 +71,15 @@ const HomeScreen = () => {
     async function handleCreateNewList() {
         const nId = await store.createNewList();
         setIdToEdit(nId);
+    }
+
+
+    let modalJSX = "";
+    if (store.isEditSongModalOpen()) {
+        modalJSX = <MUIEditSongModal />;
+    }
+    else if (store.isRemoveSongModalOpen()) {
+        modalJSX = <MUIRemoveSongModal />;
     }
     
     return (
@@ -166,6 +177,7 @@ const HomeScreen = () => {
                     </Grid>
 
                     <MUIDeleteModal />
+                    {modalJSX}
         </div>
         </>
         )

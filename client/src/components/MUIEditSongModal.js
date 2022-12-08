@@ -30,17 +30,20 @@ export default function MUIEditSongModal() {
         }
     },[done])
 
-    function handleConfirmEditSong() {
+    function handleConfirmEditSong(event) {
+        event.stopPropagation();
         let newSongData = {
             title: title,
             artist: artist,
             youTubeId: youTubeId
         };
+        store.hideModals();
         store.addUpdateSongTransaction(store.currentSongIndex, newSongData);        
     }
 
     function handleCancelEditSong(event) {
         event.stopPropagation();
+        store.hideModals();
         setDone(true);
     }
 
@@ -86,7 +89,7 @@ export default function MUIEditSongModal() {
                             id="edit-song-modal-title-textfield" 
                             className='modal-textfield' 
                             type="text" 
-                            value={title} 
+                            value={title}
                             onChange={handleUpdateTitle} />
                         </Grid>
                     </Grid>

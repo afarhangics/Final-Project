@@ -1,10 +1,8 @@
 import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
-import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import AuthContext from '../auth';
@@ -24,7 +22,8 @@ function Published(props) {
                         {idNamePair.songs.map((song, ind) => (
                             <ListItem key={ind} sx={{ width: '95%', bgcolor: 'transparent', 
                                 color: `${currentSong === ind ? '#cb7d39' : '#d4af37'}`, fontWeight:'bold', fontSize:'1.2em' }}
-                                onClick={()=>{ 
+                                onClick={(e)=>{ 
+                                    e.stopPropagation();
                                     setCurrentSong(ind);
                                     setShouldLoadNewSong(true);
                                 }}

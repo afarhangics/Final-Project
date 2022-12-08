@@ -29,6 +29,7 @@ function ListCard(props) {
         const [editActive, setEditActive] = useState(false);
 
     function handleLoadList(event, id, playlist) {
+       // event.stopPropagation();
         console.log("handleLoadList for " + id);
         if (!event.target.disabled) {            
             if (event.detail === 1) {
@@ -119,7 +120,7 @@ function ListCard(props) {
                     cursor:'pointer' }}
             className={`${current === idNamePair._id ? 'listActive' : ''}`}
             onClick={(event) => {
-                event.preventDefault();
+                event.stopPropagation();
                 handleLoadList(event, idNamePair._id, idNamePair)
             }}
         >
@@ -127,16 +128,21 @@ function ListCard(props) {
                             <Grid container sx={{width: '100%', }} spacing={3}>
                                 <Grid item xs={'auto'} md={7} >
                                     <Typography sx={{ fontSize:'12pt', fontWeight:'bold', color:'#000000', lineHeight:'30px'}}>{idNamePair.name}</Typography>
-                                    <Typography sx={{ fontSize:'8pt', fontWeight:'bold', color:'#000000', lineHeight:'30px'}}>By: <b style={{color:'blue', textDecoration:'underline'}}>{'Reina Parker'}</b></Typography>
+                                    <Typography sx={{ fontSize:'8pt', fontWeight:'bold', color:'#000000', lineHeight:'30px'}}>By: <b style={{color:'blue', textDecoration:'underline'}}>{idNamePair?.user?.firstName} {idNamePair?.user?.lastName}</b></Typography>
                                 </Grid>
                                 <Grid item xs={'auto'} md={5} >
                                     {idNamePair.published ? 
                                     <Box sx={{flexGrow: 1, display:'flex', flexDirection:'row', gap:'20px'}}>
-                                        <IconButton aria-label='delete' onClick={()=>store.postLike(idNamePair)}
+                                        <IconButton aria-label='delete' onClick={(e)=>{
+                                            e.stopPropagation();
+                                            store.postLike(idNamePair);
+                                        }}
                                             style={{background:'transparent', color:'black'}}>
                                             <ThumbUpOffAltIcon /> <Typography sx={{ marginLeft:'10px', fontSize:'12pt', fontWeight:'bold', color:'#000000'}}>{abbreviateNumber(idNamePair.likes.length)}</Typography> 
                                         </IconButton>
-                                        <IconButton  aria-label='delete' onClick={()=>store.postDisLike(idNamePair)}
+                                        <IconButton  aria-label='delete' onClick={(e)=>{
+                                                e.stopPropagation();
+                                                store.postDisLike(idNamePair)}}
                                             style={{background:'transparent', color:'black'}}>
                                             <ThumbDownOffAltIcon /> <Typography sx={{marginLeft:'10px',  fontSize:'12pt', fontWeight:'bold', color:'#000000'}}>{abbreviateNumber(idNamePair.dislikes.length)}</Typography> 
                                         </IconButton>
@@ -148,6 +154,7 @@ function ListCard(props) {
                                 <>
                                     {idNamePair.published ?
                                         <Published 
+                                            key={current + String(current)}
                                             idNamePair={idNamePair} 
                                             page={page}
                                             index={index}
@@ -157,10 +164,13 @@ function ListCard(props) {
                                             handleDeleteList={handleDeleteList}
                                         /> : 
                                         <Unpublished
+                                            key={current + String(current)}
                                             page={page}
                                             index={index}
                                             idNamePair={idNamePair} 
                                             handleDeleteList={handleDeleteList}
+                                            setCurrentSong={setCurrentSong} 
+                                            setShouldLoadNewSong={setShouldLoadNewSong}
                                         />
                                     }
                                 </> 
@@ -184,14 +194,20 @@ function ListCard(props) {
                                         <Box sx={{flexGrow: 1, display:'flex', flexDirection:'row', gap:'40px'}}>
                                             <Typography sx={{ fontSize:'8pt', fontWeight:'bold', color:'#000000'}}>Listens: <b style={{color:'#b02b28'}}>{(idNamePair.listens).toLocaleString('en-US')}</b></Typography>
                                             <IconButton  disabled={store.currentList === null || (store.currentList !== null && store.currentList._id !== idNamePair._id)}
-                                                onClick={()=>setOpen(!open)} aria-label='delete'style={{background:'transparent', color:'black', marginTop:'-15px' }}>
+                                                onClick={(e)=>{
+                                                    e.stopPropagation();
+                                                    setOpen(!open)
+                                                }} aria-label='delete'style={{background:'transparent', color:'black', marginTop:'-15px' }}>
                                                 {open ? <KeyboardDoubleArrowUpIcon fontSize='large' sx={{color:'#000000'}} /> : <KeyboardDoubleArrowDownIcon fontSize='large' sx={{color:'#000000'}} 
                                                 /> }    
                                             </IconButton>
                                         </Box>
                                     : 
                                     <Box sx={{flexGrow: 1}}> <IconButton  disabled={store.currentList === null || (store.currentList !== null && store.currentList._id !== idNamePair._id)}
-                                            onClick={()=>setOpen(!open)} aria-label='delete'style={{background:'transparent', color:'black', marginTop:'-25px', marginLeft:'89px' }}>
+                                            onClick={(e)=>{
+                                                e.stopPropagation();
+                                                setOpen(!open)
+                                            }} aria-label='delete'style={{background:'transparent', color:'black', marginTop:'-25px', marginLeft:'89px' }}>
                                             {open ? <KeyboardDoubleArrowUpIcon fontSize='large' sx={{color:'#000000'}} /> : <KeyboardDoubleArrowDownIcon fontSize='large' sx={{color:'#000000'}} 
                                             /> }    
                                         </IconButton>

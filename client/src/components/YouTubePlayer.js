@@ -113,7 +113,6 @@ class YouTubePlayer extends React.PureComponent {
       && this.props.currentSong !== null){
       let song = this.props.playlist[this.props.currentSong];
       if(song){
-        console.log('this.state.player', this.state.player)
         this.state.player.loadVideoById(song.youTubeId);
         this.state.player.playVideo();
       }
@@ -159,28 +158,22 @@ class YouTubePlayer extends React.PureComponent {
     if (playerStatus == -1) {
       // VIDEO UNSTARTED
       color = "#37474F";
-      console.log("-1 Video unstarted");
     } else if (playerStatus == 0) {
       // THE VIDEO HAS COMPLETED PLAYING
       color = "#FFFF00";
-      console.log("0 Video ended");
       this.nextSong();
     } else if (playerStatus == 1) {
       // THE VIDEO IS PLAYED
       color = "#33691E";
-      console.log("1 Video played");
     } else if (playerStatus == 2) {
       // THE VIDEO IS PAUSED
       color = "#DD2C00";
-      console.log("2 Video paused");
     } else if (playerStatus == 3) {
       // THE VIDEO IS BUFFERING
       color = "#AA00FF";
-      console.log("3 Video buffering");
     } else if (playerStatus == 5) {
       // THE VIDEO HAS BEEN CUED
       color = "#FF6DOO";
-      console.log("5 Video cued");
     }
     if (color) {
       document.getElementById(this.PLAYER_NAME).style.borderColor = color;
@@ -190,6 +183,7 @@ class YouTubePlayer extends React.PureComponent {
 
   render = () => {
     const { playlist, title, currentSong } = this.props;
+    console.log('PPPP', this.state.player, playlist.length, currentSong)
     return (
         <Box id='youtube_test_player_container'>
             <div id="youtube_player"></div>
@@ -210,14 +204,16 @@ class YouTubePlayer extends React.PureComponent {
                 <Grid display={'flex'} flexDirection={'row'} justifyContent={'center'} alignItems='center' alignContent='center' 
                 style={{background:'#ffffff', width:'385px', height:'30px', gap:'10px', color:'black', borderColor:'#666666',
                  borderStyle:'solid', borderWidth:'1px', borderRadius:'5px', position: 'absolute', top: '112px'}}>
-                    <SkipPreviousIcon sx={{cursor:'pointer'}} onClick={()=>{
+                    <SkipPreviousIcon sx={{cursor:'pointer'}} onClick={(e)=>{
+                      e.stopPropagation()
                         if(this.state.player !== null && playlist.length > 0)
                         {
                             this.skipPrevious();
                         }
                     }}
                     />
-                    <StopIcon sx={{cursor:'pointer'}} onClick={()=>{
+                    <StopIcon sx={{cursor:'pointer'}} onClick={(e)=>{
+                      e.stopPropagation()
                         if(this.state.player !== null && playlist.length > 0)
                         {
                             this.state.player.stopVideo();
@@ -226,7 +222,8 @@ class YouTubePlayer extends React.PureComponent {
                     {
                         this.state.playerState === 1 ? 
                         <PauseIcon sx={{cursor:'pointer'}}
-                            onClick={()=>{
+                            onClick={(e)=>{
+                      e.stopPropagation()
                                 if(this.state.player !== null && playlist.length > 0)
                                 {
                                     this.state.player.pauseVideo()
@@ -234,7 +231,8 @@ class YouTubePlayer extends React.PureComponent {
                             }}
                         /> : 
                         <PlayArrowIcon sx={{cursor:'pointer'}} 
-                            onClick={()=>{
+                            onClick={(e)=>{
+                      e.stopPropagation()
                                 if(this.state.player !== null && playlist.length > 0)
                                 {
                                     this.play();
@@ -243,7 +241,8 @@ class YouTubePlayer extends React.PureComponent {
                         />
                     }
                     <SkipNextIcon sx={{cursor:'pointer'}} 
-                        onClick={()=>{
+                        onClick={(e)=>{
+                      e.stopPropagation()
                             if(this.state.player !== null && playlist.length > 0)
                             {
                                 this.skipNext();

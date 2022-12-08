@@ -16,9 +16,20 @@ export default function SplashScreen() {
                 Playlister, an application for creating and playing playlists of YouTube music videos. You can create, edit and play plylists as well as share playlists with others.
             </Typography>
 
-            <Button onClick={()=>auth.guestLogIn()} style={{ textDecoration: 'none', cursor:'pointer', textTransform: 'none', fontWeight:'bold', fontSize: '20px', color: '#FFFFFF', backgroundColor:'#1976d5', marginTop:'50px', padding: '15px', width:'350px'}}>
+            <Button onClick={()=>auth.guestLogIn()} 
+                style={{ textDecoration: 'none', cursor:'pointer', textTransform: 'none', fontWeight:'bold', 
+                fontSize: '20px', color: '#FFFFFF', backgroundColor:'#1976d5', marginTop:'50px', 
+                padding: '15px', width:'350px'}}>
                 continue as Guest
             </Button>
+
+
+            <Typography
+                style={{ textDecoration: 'none', cursor:'pointer', textTransform: 'none',  
+                fontSize: '20px', marginTop:'80px', marginLeft:'32%',
+                padding: '15px', width:'350px'}}>
+                Designed By Alireza Farhangi
+            </Typography>
         </Box>
         
     )

@@ -4,21 +4,17 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
-import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/Add';
 import { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import SongCard from './SongCard.js'
-import MUIEditSongModal from './MUIEditSongModal'
-import MUIRemoveSongModal from './MUIRemoveSongModal'
 import { GlobalStoreContext } from '../store/index.js'
-import Statusbar from './Statusbar'
 
 
 function Unpublished(props) {
-    const { idNamePair, handleDeleteList, index, page } = props;
+    const { idNamePair, handleDeleteList, index, page, setCurrentSong, currentSong,
+        setShouldLoadNewSong } = props;
     const { store } = useContext(GlobalStoreContext);
     store.history = useHistory();
 
@@ -36,26 +32,21 @@ function Unpublished(props) {
     }, []);
 
 
-    function handleAddNewSong() {
+    function handleAddNewSong(e) {
+        e.stopPropagation()
         store.addNewSong();
     }
-    function handleUndo() {
+    function handleUndo(e) {
+        e.stopPropagation()
         store.undo();
     }
-    function handleRedo() {
+    function handleRedo(e) {
+        e.stopPropagation()
         store.redo();
     }
-    function handlePublish() {
+    function handlePublish(e) {
+        e.stopPropagation()
         store.publishCurrentList(idNamePair);
-    }
-
-    
-    let modalJSX = "";
-    if (store.isEditSongModalOpen()) {
-        modalJSX = <MUIEditSongModal />;
-    }
-    else if (store.isRemoveSongModalOpen()) {
-        modalJSX = <MUIRemoveSongModal />;
     }
   
     return (
@@ -68,6 +59,9 @@ function Unpublished(props) {
                                 key={'playlist-song-' + (index)}
                                 index={index}
                                 song={song}
+                                currentSong={currentSong}
+                                setCurrentSong={setCurrentSong} 
+                                setShouldLoadNewSong={setShouldLoadNewSong}
                             />
                         ))}
                         <ListItem sx={{ width: '100%', bgcolor: '#2c2f70', 
@@ -85,7 +79,6 @@ function Unpublished(props) {
                                 </IconButton>
                         </ListItem>
                     </List>
-                    { modalJSX }
             </Box>
            
             <br/>
