@@ -146,6 +146,10 @@ getPlaylistPairs = async (req, res) => {
 }
 
 getPublishedPlaylists = async (req, res) => {
+    const users = await User.find({});
+    console.log("%%%%%%%%%%%%%%%", users);
+    const userTree = {}
+    users.forEach(u => userTree[u.email] = u)
     await Playlist.find({published: true}, (err, playlists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
@@ -155,7 +159,16 @@ getPublishedPlaylists = async (req, res) => {
                 .status(404)
                 .json({ success: false, error: `Playlists not found` })
         }
-        return res.status(200).json({ success: true, playlists })
+        const userTree = {}
+            users.forEach(u => userTree[u.email] = u)
+            const emailUserKeys = playlists.map(p => {
+                const newPlaylist = {
+                    ...p._doc,
+                    user: userTree[p.ownerEmail]
+                }
+                return newPlaylist;
+            })
+        return res.status(200).json({ success: true, playlists: emailUserKeys })
     }).catch(err => console.log(err))
 }
 
@@ -225,6 +238,7 @@ searchPlaylists = async (req, res) => {
         })
     }
     const users = await User.find({});
+    console.log("%%%%%%%%%%%%%%%", users);
     const userTree = {}
     users.forEach(u => userTree[u.email] = u)
             

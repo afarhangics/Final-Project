@@ -122,29 +122,34 @@ class YouTubePlayer extends React.PureComponent {
   // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
   nextSong = () => {
     let { currentSong } = this.props;
-    currentSong++;
-    currentSong = currentSong % this.props.playlist.length;
-    this.props.setCurrentSong(currentSong);
+    let i = currentSong + 1;
+    i = i % this.props.playlist.length;
+    this.props.setCurrentSong(i);
   }
 
   // THIS FUNCTION DECREMENTS THE PLAYLIST SONG TO THE PREVIOUS ONE
   previousSong = () => {
     let { currentSong } = this.props;
-    if(currentSong > 0)
-        currentSong--;
-    else if(currentSong === 0)
-      currentSong = this.props.playlist.length - 1;
-    this.props.setCurrentSong(currentSong);
+    let i = currentSong;
+    if(i > 0)
+        i--;
+    else if(i === 0)
+      i = this.props.playlist.length - 1;
+    this.props.setCurrentSong(i);
   }
 
   skipNext = () => {
       this.nextSong();
-      this.loadAndPlayCurrentSong();
+      setTimeout(()=>{
+        this.loadAndPlayCurrentSong();
+      }, 200);
   }
 
   skipPrevious = () => {
     this.previousSong();
-    this.loadAndPlayCurrentSong();
+    setTimeout(()=>{
+      this.loadAndPlayCurrentSong();
+    }, 200);
 }
   
   // THIS IS OUR EVENT HANDLER FOR WHEN THE YOUTUBE PLAYER'S STATE
