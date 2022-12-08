@@ -744,6 +744,7 @@ function GlobalStoreContextProvider(props) {
         asyncUpdateCurrentList(currentList);
     }
     store.postLike = function(currentList) {
+        
         const like = currentList.likes.find(lk => lk.userId === auth.user._id)
         if(like){
             return;
@@ -754,15 +755,16 @@ function GlobalStoreContextProvider(props) {
             filtered = currentList.dislikes.filter(lk => lk.userId !== auth.user._id);
         }
 
+         
         const updated = {
             ...currentList,
             dislikes: filtered,
             likes: [...currentList.likes, {userId: auth.user._id}]
         }
-
+        console.log('&&&&&&&', updated)
         async function asyncUpdateCurrentList(updated) {
             
-            const response = await api.updatePlaylistById(updated._id, updated);
+            const response = await api.likeUnlikePlaylistById(updated._id, updated);
             if (response.data.success) {
                 let pairsArray = updateImmutable(store.idNamePairs, response.data.playlist);
                 storeReducer({
@@ -788,7 +790,7 @@ function GlobalStoreContextProvider(props) {
         if(like){
             filtered = currentList.likes.filter(lk => lk.userId !== auth.user._id);
         }
-
+        
         const updated = {
             ...currentList,
             likes: filtered,
@@ -797,7 +799,7 @@ function GlobalStoreContextProvider(props) {
 
         async function asyncUpdateCurrentList(updated) {
             
-            const response = await api.updatePlaylistById(updated._id, updated);
+            const response = await api.likeUnlikePlaylistById(updated._id, updated);
             if (response.data.success) {
                 let pairsArray = updateImmutable(store.idNamePairs, response.data.playlist);
                 storeReducer({
@@ -822,10 +824,10 @@ function GlobalStoreContextProvider(props) {
         return (store.currentList !== null && !store.isRemoveSongModalOpen() && !store.isEditSongModalOpen());
     }
     store.canUndo = function() {
-        return ((store.currentList !== null) && tps.hasTransactionToUndo() && !store.isRemoveSongModalOpen() && !store.isEditSongModalOpen());
+        return tps.hasTransactionToUndo();
     }
     store.canRedo = function() {
-        return ((store.currentList !== null) && tps.hasTransactionToRedo() && !store.isRemoveSongModalOpen() && !store.isEditSongModalOpen());
+        return tps.hasTransactionToRedo();
     }
     store.canClose = function() {
         return (store.currentList !== null && !store.isRemoveSongModalOpen() && !store.isEditSongModalOpen());

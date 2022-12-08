@@ -18,6 +18,7 @@ router.get('/published-playlists', PlaylistController.getPublishedPlaylists)
 router.post('/search-users', PlaylistController.searchPlaylistsByUsers)
 router.post('/search-playlists', PlaylistController.searchPlaylists)
 router.put('/playlist/:id', auth.verify, PlaylistController.updatePlaylist)
+router.put('/playlist-like-unlike/:id', auth.verify, PlaylistController.likeUnlikePlaylist)
 router.put('/increment-playlist-listens/:id', PlaylistController.incrementPlaylistListen)
 
 module.exports = router

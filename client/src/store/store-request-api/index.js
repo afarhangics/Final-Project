@@ -49,6 +49,13 @@ export const updatePlaylistById = (id, playlist) => {
         playlist : playlist
     })
 }
+export const likeUnlikePlaylistById = (id, playlist) => {
+    return api.put(`/playlist-like-unlike/${id}`, {
+        // SPECIFY THE PAYLOAD
+        playlist : playlist
+    })
+}
+
 export const incrementPlaylistListen = (id) => {
     return api.put(`/increment-playlist-listens/${id}`)
 }
@@ -63,6 +70,7 @@ const apis = {
     getPublishedPlaylists,
     incrementPlaylistListen,
     searchPlaylists,
+    likeUnlikePlaylistById,
 }
 
 export default apis

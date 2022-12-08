@@ -124,7 +124,8 @@ export default function AppBanner() {
                         >
                             { getAccountMenu(auth.loggedIn || auth.isGuest) }
                         </IconButton>
-                         : <Grid container spacing={15} style={{marginLeft:'50%'}}>
+                         : 
+                         <Grid container spacing={12} justifyContent={{marginLeft:'70%'}}>
                             <Grid item xs={'auto'} md={6} >
                                 <Button onClick={()=>history.push('/login')} style={{ textDecoration: 'none', cursor:'pointer', textTransform: 'none', fontWeight:'bold',
                                                     borderWidth: '1px',  borderColor: '#666666', borderRadius: '5px', borderStyle: 'solid', width:'100px',
@@ -140,7 +141,7 @@ export default function AppBanner() {
                                 </Button>
 
                             </Grid>
-                            </Grid>} 
+                        </Grid>} 
                         
                     </Box>
                 </Toolbar>

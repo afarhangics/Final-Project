@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import AuthContext from '../auth'
 
@@ -16,20 +17,28 @@ export default function SplashScreen() {
                 Playlister, an application for creating and playing playlists of YouTube music videos. You can create, edit and play plylists as well as share playlists with others.
             </Typography>
 
-            <Button onClick={()=>auth.guestLogIn()} 
-                style={{ textDecoration: 'none', cursor:'pointer', textTransform: 'none', fontWeight:'bold', 
-                fontSize: '20px', color: '#FFFFFF', backgroundColor:'#1976d5', marginTop:'50px', 
-                padding: '15px', width:'350px'}}>
-                continue as Guest
-            </Button>
+            <Stack direction="row" justifyContent="center">
+                <Button onClick={()=>auth.guestLogIn()} 
+                    style={{ textDecoration: 'none', cursor:'pointer', textTransform: 'none', fontWeight:'bold', 
+                    fontSize: '20px', color: '#FFFFFF', backgroundColor:'#1976d5', marginTop:'50px', 
+                    padding: '15px', width:'350px'}}>
+                    Continue as Guest
+                </Button>
+            </Stack>
 
 
+
+            <Stack direction="row" justifyContent="center">
             <Typography
                 style={{ textDecoration: 'none', cursor:'pointer', textTransform: 'none',  
-                fontSize: '20px', marginTop:'80px', marginLeft:'32%',
+                fontSize: '20px', marginTop:'80px',
                 padding: '15px', width:'350px'}}>
                 Designed By Alireza Farhangi
             </Typography>
+</Stack>
+
+
+            
         </Box>
         
     )
